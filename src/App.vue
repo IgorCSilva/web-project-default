@@ -1,20 +1,30 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+    <component :is="layout">
+      <router-view />
+    </component>
+    <!-- <vue-snotify></vue-snotify> -->
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import HelloWorld from './components/HelloWorld.vue';
+<script>
+const DefaultLayout = () => import(/* webpackChunkName: "vsf-layout-default" */ '@/layouts/Default')
+const MinimalLayout = () => import(/* webpackChunkName: "vsf-layout-default" */ '@/layouts/Minimal')
 
-@Component({
+export default {
+  name: 'App',
   components: {
-    HelloWorld,
+    DefaultLayout,
+    // EmptyLayout,
+    MinimalLayout
   },
-})
-export default class App extends Vue {}
+  computed: {
+    layout () {
+      let layoutName = `${(this.$route.meta.layout || 'default')}-layout`
+      return layoutName
+    }
+  },
+}
 </script>
 
 <style lang="scss">
