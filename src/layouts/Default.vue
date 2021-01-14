@@ -9,7 +9,8 @@
     Storage
     NetWork
     Translate
-
+    Axios
+    
     slot
 
 </template>
@@ -24,6 +25,7 @@ import Notifications from '@/components/howToUse/Notifications.vue'
 import Storage from '@/components/howToUse/VueStorage.vue'
 import NetWork from '@/components/howToUse/VueOffline.vue'
 import Translate from '@/components/howToUse/Translate.vue'
+import Axios from '@/components/howToUse/Axios.vue'
 
 export default {
   name: 'DefaultLayout',
@@ -36,7 +38,8 @@ export default {
     Notifications,
     Storage,
     NetWork,
-    Translate
+    Translate,
+    Axios
   }
 }
 </script>
