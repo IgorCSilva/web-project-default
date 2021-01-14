@@ -3,7 +3,7 @@
     <component :is="layout">
       <router-view />
     </component>
-    <!-- <vue-snotify></vue-snotify> -->
+    <vue-snotify></vue-snotify>
   </div>
 </template>
 

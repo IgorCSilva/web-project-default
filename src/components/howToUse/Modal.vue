@@ -1,14 +1,13 @@
-<template>
-  <div class="comp-modal">
-    <h2>Using Modals</h2>
-    
-    <button @click="showModal('first')">Show first modal</button>
-    <button @click="showModal('second')">Show second modal</button>
-    <button @click="showAllModals()">Show all modal</button>
+<template lang="pug">
+  .comp-modal
+    h2 Using Modals
 
-    <first />
-    <second />
-  </div>
+    button(@click="showModal('first')") Show first modal
+    button(@click="showModal('second')") Show second modal
+    button(@click="showAllModals()") Show all modal
+
+    first
+    second
 </template>
 
 <script>
