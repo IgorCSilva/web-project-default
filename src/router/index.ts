@@ -29,4 +29,12 @@ const router = new VueRouter({
   routes
 })
 
+// Definindo título da página.
+const DEFAULT_TITLE = 'Default Title';
+router.afterEach((to, from) => {
+    Vue.nextTick(() => {
+        document.title = to.meta.title || DEFAULT_TITLE;
+    });
+});
+
 export default router
