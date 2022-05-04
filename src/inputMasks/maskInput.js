@@ -12,6 +12,10 @@ export default {
       } else if (['date'].includes(mask)) {
         maskedValue = this.date(value)
 
+      } else if (['credit-card-expiration-date'].includes(mask)) {
+        maskedValue = this.date(value)
+        maskedValue = this.limitLength(maskedValue, 5)
+        
       } else if (['document'].includes(mask)) {
         maskedValue = this.document(value)
 
@@ -33,9 +37,21 @@ export default {
       } else if (['uppercase'].includes(mask)) {
         maskedValue = this.upperCase(value)
 
+      } else if (['lowercase'].includes(mask)) {
+        maskedValue = value.toLowerCase()
+
+      } else if (['email'].includes(mask)) {
+        maskedValue = value.toLowerCase()
+        maskedValue = this.removeSpace(maskedValue)
+
       } else if (['instagram'].includes(mask)) {
         maskedValue = this.instagram(value)
 
+      } else if(['credit-card-number'].includes(mask)) {
+        maskedValue = this.creditCardNumber(value)
+        
+      } else if (['@instagram'].includes(mask)) {
+        maskedValue = '@' + this.instagram(value)
       }
 
       return maskedValue
@@ -48,6 +64,14 @@ export default {
         phoneNumber = phoneNumber.join('')
         if (phoneNumber.length > 11) {
           maskValue = phoneNumber
+        } else if (phoneNumber.length == 10) {
+          maskValue =
+            '(' +
+            phoneNumber.substr(0, 2) +
+            ') ' +
+            phoneNumber.substr(2, 4) +
+            '-' +
+            phoneNumber.substr(6, phoneNumber.length - 6)
         } else if (phoneNumber.length > 7) {
           maskValue =
             '(' +
@@ -202,6 +226,9 @@ export default {
     upperCase (value) {
       return value.toUpperCase()
     },
+    removeSpace (value) {
+      return value.replace(/ /g, '')
+    },
     onlyLettersAndNumbers (value) {
       let maskedValue = ''
 
@@ -259,10 +286,47 @@ export default {
     instagram (value) {
       let maskedValue = value
 
-      let maskInstagram = maskedValue.replace('@', '')
+      let maskInstagram = maskedValue.replace(/@/g, '')
       
       if (maskInstagram || maskInstagram == '') {
         maskedValue = maskInstagram
+      }
+
+      return maskedValue
+    },
+    limitLength (value, length) {
+      return value.substr(0, length)
+    },
+    creditCardNumber (value) {
+      let onlyNumbers = this.onlyNumbers(value)
+      onlyNumbers = this.limitLength(onlyNumbers, 24)
+
+      let maskedValue = ''
+
+      if (onlyNumbers.length > 16) {
+        maskedValue =
+          onlyNumbers.substr(0, 4) + ' ' +
+          onlyNumbers.substr(4, 4) + ' ' +
+          onlyNumbers.substr(8, 4) + ' ' +
+          onlyNumbers.substr(12, 4) + ' ' +
+          onlyNumbers.substr(16, onlyNumbers.length - 16)
+      } else if (onlyNumbers.length > 12) {
+        maskedValue =
+          onlyNumbers.substr(0, 4) + ' ' +
+          onlyNumbers.substr(4, 4) + ' ' +
+          onlyNumbers.substr(8, 4) + ' ' +
+          onlyNumbers.substr(12, onlyNumbers.length - 12)
+      } else if (onlyNumbers.length > 8) {
+        maskedValue =
+          onlyNumbers.substr(0, 4) + ' ' +
+          onlyNumbers.substr(4, 4) + ' ' +
+          onlyNumbers.substr(8, onlyNumbers.length - 8)
+      } else if (onlyNumbers.length > 4) {
+        maskedValue =
+          onlyNumbers.substr(0, 4) + ' ' +
+          onlyNumbers.substr(4, onlyNumbers.length - 4)
+      } else {
+        maskedValue = onlyNumbers
       }
 
       return maskedValue
